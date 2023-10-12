@@ -30,7 +30,7 @@ def showNewManager(request):
         form = managerForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/SEL4C/managerTable')
+            return redirect('/SEL4C/managerTable/')
     else:
         form = managerForm()
 
