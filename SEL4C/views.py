@@ -40,7 +40,7 @@ def deleteManager(request, id):
     managerN = manager.objects.get(pk=id)
     managerN.delete()
     messages.success(request, "Eliminado Correctamente")
-    return redirect('/SEL4C/managerTable')
+    return redirect('/SEL4C/managerTable/')
 
 # USUARIOS
 
@@ -52,7 +52,7 @@ def deleteUser(request, id):
     userN = user.objects.get(pk=id)
     userN.delete()
     messages.success(request, "Eliminado Correctamente")
-    return redirect('/SEL4C/usersTable')
+    return redirect('/SEL4C/usersTable/')
 
 # RENDER ACTIVIDADES 
 
