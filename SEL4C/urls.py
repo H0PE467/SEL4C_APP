@@ -13,7 +13,8 @@ router.register(r'managers',views.managerViewSet)
 
 
 urlpatterns = [
-    path('', views.showLogin, name='login'),
+    path('login/', views.showLogin, name='login'),
+    path('logout/', views.logoutUser, name='logoutUser'),
     path('admin/', include(router.urls)),
     path('index/', views.showIndex, name='index'),
     path('account/', views.showAccount, name='account'),
@@ -21,12 +22,12 @@ urlpatterns = [
     # MANAGERS
 
     path('deleteManager/<int:id>/', views.deleteManager, name='manager_delete'),
-    path('managerTable/', views.showManagers, name='managers'),
+    path('managerTable/<int:page>/', views.showManagers, name='managers'),
     path('managerTable/newManager/', views.showNewManager, name='newManager'),
 
     # USERS
 
-    path('usersTable/', views.showUsers, name='users'),
+    path('usersTable/<int:page>/', views.showUsers, name='users'),
     path('deleteUser/<int:id>/', views.deleteUser, name='user_delete'),
 
     # ACTIVIDADES

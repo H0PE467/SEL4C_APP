@@ -14,40 +14,105 @@
     <title>SEL4C Dashboard</title>
   </head>
   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("searchInput");
+    const table = document.getElementById("myTable");
+    const tableRows = table.getElementsByTagName("tr");
+
+    searchInput.addEventListener("input", function () {
+        const filter = searchInput.value.toLowerCase();
+
+        for (let i = 1; i < tableRows.length; i++) {
+            const row = tableRows[i];
+            const data = row.textContent.toLowerCase();
+
+            if (data.includes(filter)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+      });
+    });
+
+
+    varChoosen = 10;
+    currentMode = 'asc';
+
     function sortTable(changeVar) {
       var table, rows, switching, i, x, y, shouldSwitch;
       table = document.getElementById("myTable");
       switching = true;
-      /*Make a loop that will continue until
-      no switching has been done:*/
-      while (switching) {
-        //start by saying: no switching is done:
-        switching = false;
-        rows = table.rows;
-        /*Loop through all table rows (except the
-        first, which contains table headers):*/
-        for (i = 1; i < (rows.length - 1); i++) {
-          
-          //start by saying there should be no switching:
-          shouldSwitch = false;
-          /*Get the two elements you want to compare,
-          one from current row and one from the next:*/
-          x = rows[i].getElementsByTagName("TD")[changeVar];
-          y = rows[i + 1].getElementsByTagName("TD")[changeVar];
-          //check if the two rows should switch place:
-          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-            //if so, mark as a switch and break the loop:
-            shouldSwitch = true;
-            break;
-          }
-        }
-        if (shouldSwitch) {
-          /*If a switch has been marked, make the switch
-          and mark that a switch has been done:*/
-          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-          switching = true;
+
+      if(changeVar == varChoosen){
+        if (currentMode == 'asc') {
+          currentMode = 'desc'
+        }else{
+          currentMode = 'asc'
         }
       }
+      varChoosen = changeVar
+
+
+      if (currentMode == 'asc') {
+        while (switching) {
+          switching = false;
+          rows = table.rows;
+          for (i = 1; i < (rows.length - 1); i++) {
+            
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[changeVar];
+            y = rows[i + 1].getElementsByTagName("TD")[changeVar];
+            if (changeVar == 1 || changeVar == 5) {
+              if (parseInt(x.innerHTML.toLowerCase())  > parseInt(y.innerHTML.toLowerCase())) {
+              shouldSwitch = true;
+              break;
+              }
+            }
+            else{
+              if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+              }
+            }
+          }
+          if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+          }
+        }
+      }
+      else{
+        while (switching) {
+          switching = false;
+          rows = table.rows;
+          for (i = 1; i < (rows.length - 1); i++) {
+            
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("TD")[changeVar];
+            y = rows[i + 1].getElementsByTagName("TD")[changeVar];
+            if (changeVar == 1 || changeVar == 5) {
+              if (parseInt(x.innerHTML.toLowerCase())  < parseInt(y.innerHTML.toLowerCase())) {
+              shouldSwitch = true;
+              break;
+              }
+            }
+            else{
+              if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+              shouldSwitch = true;
+              break;
+              }
+            }
+          }
+          if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+          }
+        }
+      }
+
+      
+
     }
     function deleteRow(element){
           element.parentElement.parentElement.remove();
@@ -56,10 +121,14 @@
   <body>
     <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color: #0039A6;">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'index' %}">SEL4C</a>
-      <ul class="navbar-nav px-3">
-    <li class="nav-item text-nowrap">
-      <a class="nav-link" href="{% url 'login' %}"> Cerrar Sesión</a>
-    </li>
+      <ul class="navbar-nav px-3 flex-row">
+
+        <li class="nav-item text-nowrap">
+          <a class="nav-link text-light mr-5">   {{ request.user}}</a>
+        </li>
+        <li class="nav-item text-nowrap">
+          <a class="nav-link text-light" href="{% url 'logoutUser' %}"> Cerrar Sesión</a>
+        </li>
   </ul>
 </nav>
 
@@ -75,13 +144,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'users' %}">
+            <a class="nav-link" href="{% url 'users' 1 %}">
               <span data-feather="file"></span>
               Usuarios
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="{% url 'managers' %}">
+            <a class="nav-link active" href="{% url 'managers' 1 %}">
               <span data-feather="shopping-cart"></span>
               Administradores <span class="sr-only">(current)</span>
             </a>
@@ -100,9 +169,8 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-0 mb-3">
         <h2 class="h2 pt-2">Base de Datos de Administradores</h2>
         <div class="btn-toolbar mb-2 mb-md-0">
-        
 
-
+      
           <div class="dropdown">
             <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Organizar por
@@ -116,9 +184,17 @@
 
 
         </div>
+
+      </div>
+      <div class="d-flex">
+
+        <div class="row justify-content-start w-100">
+          <input class="form-control col-8 mb-3" type="text" id="searchInput" placeholder="Buscar manager...">
+          <div class="col-1"></div>
+          <a href="{% url 'newManager' %}" class="btn btn-info mb-3 col-3"  role="button"> Crear nuevo administrador</a>
+        </div>
       </div>
       
-      <a href="{% url 'newManager' %}" class="btn btn-info mb-4"  role="button"> Crear nuevo administrador</a>
 
 
       <div class="table-responsive">
@@ -139,7 +215,7 @@
                   <td>{{ manager.cellphone }}</td>
                   
                   <td>
-                    <!-- action="{% url 'users' %}" -->
+                    <!-- action="{% url 'users' 1 %}" -->
                     <!-- action="{% url 'manager_delete' manager.id %}" -->
                     <form class="delete-button" action="{% url 'manager_delete' manager.id %}" method="post">
                       {% csrf_token %}
@@ -152,6 +228,25 @@
           </tbody>
         </table>
       </div>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="{% url 'managers' pagePrev %}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="page-item"><a class="page-link" href="{% url 'managers' pageFirst %}">{{ pageFirst }}</a></li>
+          <li class="page-item"><a class="page-link" href="{% url 'managers' pageSecond %}">{{ pageSecond }}</a></li>
+          <li class="page-item"><a class="page-link" href="{% url 'managers' pageThird %}">{{ pageThird }}</a></li>
+          <li class="page-item">
+            <a class="page-link" href="{% url 'managers' pageNext %}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
     </main>
   </div>
 </div>

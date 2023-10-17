@@ -15,10 +15,14 @@
   <body>
     <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color: #0039A6;">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'index' %}">SEL4C</a>
-  <ul class="navbar-nav px-3">
-    <li class="nav-item text-nowrap">
-      <a class="nav-link" href="{% url 'login' %}"> Cerrar Sesión</a>
-    </li>
+        <ul class="navbar-nav px-3 flex-row">
+
+          <li class="nav-item text-nowrap">
+            <a class="nav-link text-light mr-5">   {{ request.user}}</a>
+          </li>
+          <li class="nav-item text-nowrap">
+            <a class="nav-link text-light" href="{% url 'logoutUser' %}"> Cerrar Sesión</a>
+          </li>
   </ul>
 </nav>
 

@@ -15,10 +15,14 @@
   <body>
     <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color: #0039A6;">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'index' %}">SEL4C</a>
-  <ul class="navbar-nav px-3">
-    <li class="nav-item text-nowrap">
-      <a class="nav-link" href="{% url 'login' %}"> Cerrar Sesión</a>
-    </li>
+        <ul class="navbar-nav px-3 flex-row">
+
+          <li class="nav-item text-nowrap">
+            <a class="nav-link text-light mr-5">   {{ request.user}}</a>
+          </li>
+          <li class="nav-item text-nowrap">
+            <a class="nav-link text-light" href="{% url 'logoutUser' %}"> Cerrar Sesión</a>
+          </li>
   </ul>
 </nav>
 
@@ -34,20 +38,45 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2 pt-2">Nuevo Administrador</h1>
       </div>
-  
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Nombre</span>
+        <input name="name" type="text" class="form-control" placeholder="Nombre Completo" aria-label="Username" aria-describedby="basic-addon1" value="{{ name|default:'' }}" required>
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Correo</span>
+        <input name="email" type="email" class="form-control" placeholder="Correo" aria-label="Username" aria-describedby="basic-addon1" value="{{ email|default:'' }}" required>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Celular</span>
+        <input name="cellphone" type="number" class="form-control" placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" value="{{ cellphone|default:'' }}" required>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Contraseña</span>
+        <input name="password" type="password" class="form-control" placeholder="Contraseña" aria-label="Username" aria-describedby="basic-addon1" value="{{ password|default:'' }}" required>
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Confirme su Contraseña</span>
+        <input name="password_confirmation" type="password" class="form-control" placeholder="Confirmación" aria-label="Username" aria-describedby="basic-addon1" value="{{ password_confirmation|default:'' }}" required>
+      </div>
+
+      <div class="form-check mb-3">
+        <input name="isSuperAdmin" class="form-check-input" type="checkbox" value="true" id="defaultCheck1">
+        <label class="form-check-label" for="defaultCheck1">
+          Es Super Admin?
+        </label>
+      </div>
       
-      {% load crispy_forms_tags %}
-    <form method="post" autocomplete="off">
-        {% csrf_token %}
-        {{ form.name|as_crispy_field }}
-        {{ form.email|as_crispy_field }}
-        {{ form.cellphone|as_crispy_field }}
-        {{ form.password|as_crispy_field }}
-        {{ form.password_confirmation|as_crispy_field }}
-        
-        {{ form.isSuperAdmin|as_crispy_field }}
-        <button type="submit" class="btn btn-success">Añadir</button>
-        <a href="{% url 'managers' %}" class="btn btn-danger"> Cancelar </a>
+      <button type="submit" class="btn btn-success">Añadir</button>
+      <a href="{% url 'managers' 1 %}" class="btn btn-danger"> Cancelar </a>
+      </button>
+      {% if error_message %}
+        <p class="error-message text-danger pt-2" style="font-weight: 600;">{{ error_message }}</p>
+      {% endif %}
     </form>
     
     </main>

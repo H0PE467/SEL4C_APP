@@ -14,10 +14,14 @@
   <body>
     <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color: #0039A6;">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'index' %}">SEL4C</a>
-      <ul class="navbar-nav px-3">
-    <li class="nav-item text-nowrap">
-      <a class="nav-link" href="{% url 'login' %}"> Cerrar Sesión</a>
-    </li>
+      <ul class="navbar-nav px-3 flex-row">
+
+        <li class="nav-item text-nowrap">
+          <a class="nav-link text-light mr-5">   {{ request.user}}</a>
+        </li>
+        <li class="nav-item text-nowrap">
+          <a class="nav-link text-light" href="{% url 'logoutUser' %}"> Cerrar Sesión</a>
+        </li>
   </ul>
 </nav>
 
@@ -33,13 +37,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'users' %}">
+            <a class="nav-link" href="{% url 'users' 1 %}">
               <span data-feather="file"></span>
               Usuarios
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'managers' %}">
+            <a class="nav-link" href="{% url 'managers' 1 %}">
               <span data-feather="shopping-cart"></span>
               Administradores
             </a>
@@ -59,31 +63,39 @@
         <h1 class="h2 pt-2">Mi Cuenta</h1>
       </div>
       
-      <form>
+      <form method="POST">
+        {% csrf_token %}
 
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Nombre</span>
-          <input type="text" class="form-control" placeholder="Nombre Completo" aria-label="Username" aria-describedby="basic-addon1" value="Thierry van Dornhoven" required>
+          <input name="name" type="text" class="form-control" placeholder="Nombre Completo" aria-label="Username" aria-describedby="basic-addon1" value="{{ user_name|default:'' }}" required>
         </div>
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Correo</span>
-          <input type="email" class="form-control" placeholder="Correo" aria-label="Username" aria-describedby="basic-addon1" value="thierry@gmail.com" required>
+          <input name="email" type="email" class="form-control" placeholder="Correo" aria-label="Username" aria-describedby="basic-addon1" value="{{ user_email|default:'' }}" required>
         </div>
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Celular</span>
-          <input type="number" class="form-control" placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" value="5543864454" required>
+          <input name="cellphone" type="number" class="form-control" placeholder="Celular" aria-label="Username" aria-describedby="basic-addon1" value="{{ user_cellphone|default:'' }}" required>
         </div>
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Contraseña</span>
-          <input type="password" class="form-control" placeholder="Contraseña" aria-label="Username" aria-describedby="basic-addon1" value="Superman400" required>
+          <span class="input-group-text" id="basic-addon1">Contraseña Actual</span>
+          <input name="password_current" type="password" class="form-control" placeholder="Contraseña" aria-label="Username" aria-describedby="basic-addon1" value="" required>
         </div>
         <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Confirme su Contraseña</span>
-          <input type="password" class="form-control" placeholder="Confirmación" aria-label="Username" aria-describedby="basic-addon1" value="Superman400" required>
+          <span class="input-group-text" id="basic-addon1">Nueva Contraseña</span>
+          <input name="password" type="password" class="form-control" placeholder="Contraseña" aria-label="Username" aria-describedby="basic-addon1" value="">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">Confirme su Nueva Contraseña</span>
+          <input name="password_confirmation" type="password" class="form-control" placeholder="Confirmación" aria-label="Username" aria-describedby="basic-addon1" value="">
         </div>
 
         
         <button type="submit" class="btn btn-info">Guardar</button>
+        {% if error_message %}
+          <p class="error-message text-danger pt-2" style="font-weight: 600;">{{ error_message }}</p>
+        {% endif %}
       </form>
 
 

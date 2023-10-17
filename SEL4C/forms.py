@@ -14,7 +14,7 @@ class managerForm(forms.ModelForm):
             'cellphone' : 'Celular',
             'password' : 'Contraseña',
             'password_confirmation' : 'Confirmar Contraseña',
-            'isSuperAdmin' : 'Es Super Administrador?',
+            'is_superuser' : 'Es Super Administrador?',
         }
         widgets = {
             'password': forms.PasswordInput(),

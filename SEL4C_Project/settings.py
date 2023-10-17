@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-%r1xuudl#5@w8ap2hp1+ed14kqs2gtk^z42*d6--a=d6-cfx@r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']   
+ALLOWED_HOSTS = ['*']
+
+LOGIN_URL = 'login'   
+
+AUTH_USER_MODEL = 'SEL4C.manager'
 
 
 # Application definition
@@ -44,7 +48,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'drf_spectacular',
-    'coreapi'
 ]
 
 MIDDLEWARE = [
@@ -133,8 +136,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
 
 }
 

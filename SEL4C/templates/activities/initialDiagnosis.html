@@ -15,10 +15,14 @@
   <body>
     <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color: #0039A6;">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'index' %}">SEL4C</a>
-  <ul class="navbar-nav px-3">
-    <li class="nav-item text-nowrap">
-      <a class="nav-link" href="{% url 'login' %}"> Cerrar Sesión</a>
-    </li>
+        <ul class="navbar-nav px-3 flex-row">
+
+          <li class="nav-item text-nowrap">
+            <a class="nav-link text-light mr-5">   {{ request.user}}</a>
+          </li>
+          <li class="nav-item text-nowrap">
+            <a class="nav-link text-light" href="{% url 'logoutUser' %}"> Cerrar Sesión</a>
+          </li>
   </ul>
 </nav>
 
@@ -37,339 +41,135 @@
       </div>
 
       <h2>Perfil del Emprendedor Social</h2>
-
-      <h4 class="mt-3">Pregunta 1</h4>
-      <p>Cuando algo me apasiona hago lo posible para lograr mis metas.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 2</h4>
-      <p>Cuando mi trabajo me apasiona hago lo posible por concluirlo, aunque enfrente circunstancias adversas, falta de tiempo o distractores.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 3</h4>
-      <p>A pesar del rechazo o problemas, siempre busco conseguir mis objetivos.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 4</h4>
-      <p>Soy tolerante ante situaciones ambiguas o que me generen incertidumbre.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 5</h4>
-      <p>Tengo la capacidad de establecer una meta clara y los pasos para lograrla.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 6</h4>
-      <p>Es común que logre convencer a otros sobre mis ideas y acciones.
-      </p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 7</h4>
-      <p>Domino diferentes formas de comunicar mis ideas: por escrito, en un video o en charlas cara a cara.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 8</h4>
-      <p>Se me facilita delegar actividades a los miembros de mi equipo de acuerdo con sus perfiles.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 9</h4>
-      <p>Tengo la habilidad de identificar las fortalezas y debilidades de las personas con las que trabajo.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 10</h4>
-      <p>Se me facilita colaborar de manera activa en un equipo para lograr objetivos comunes.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 11</h4>
-      <p>Me apasiona trabajar en favor de causas sociales.
-      </p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 12</h4>
-      <p>Creo que la misión de mi vida es trabajar para el cambio social y mejorar la vida de las personas.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 13</h4>
-      <p>Me interesa dirigir una iniciativa con resultados favorables para la sociedad y/o el medio ambiente.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 14</h4>
-      <p>Soy capaz de identificar problemas en el entorno social o ambiental para generar soluciones innovadoras.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 15</h4>
-      <p>Manifiesto un compromiso por participar en aspectos sociales de mi entorno.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 16</h4>
-      <p>Opino que el crecimiento económico debe ocurrir en igualdad de oportunidades y equidad para todos.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 17</h4>
-      <p>Mis acciones y comportamientos se rigen por normas morales basadas en el respeto y cuidado hacia las personas y a la naturaleza.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 18</h4>
-      <p>Sé cómo aplicar estrategias para crear nuevas ideas o proyectos.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 19</h4>
-      <p>Sé aplicar conocimientos contables y financieros para el desarrollo de un emprendimiento.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 20</h4>
-      <p>Tengo nociones sobre la logística para llevar a cabo la gestión de una organización.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 21</h4>
-      <p>Sé cómo realizar un presupuesto para lograr un proyecto.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 22</h4>
-      <p>Sé cómo establecer criterios de valoración y medir los resultados de impacto social.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 23</h4>
-      <p>Creo que el cometer errores nos ofrece nuevas oportunidades de aprendizaje.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 24</h4>
-      <p>Conozco estrategias para desarrollar un proyecto, aún con escasez de recursos.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-    
+      <div id="PES"></div>
       <h2 class="border-top mt-4 pt-2 mb-2">Pensamiento Complejo</h2>
-      
-      <h4 class="mt-3">Pregunta 1</h4>
-      <p>Tengo la capacidad de encontrar asociaciones entre las variables, condiciones y restricciones en un proyecto.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 2</h4>
-      <p>Identifico datos de mi disciplina y de otras áreas que contribuyen a resolver problemas.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 3</h4>
-      <p>Participo en proyectos que se tienen que resolver utilizando perspectivas Inter/multidisciplinarias.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 4</h4>
-      <p>Organizo información para resolver problemas.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 5</h4>
-      <p>Me agrada conocer perspectivas diferentes de un problema.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 6</h4>
-      <p>Me inclino por estrategias para comprender las partes y el todo de un problema.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 7</h4>
-      <p>Tengo la capacidad de Identificar los componentes esenciales de un problema para formular una pregunta de investigación.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 8</h4>
-      <p>Conozco la estructura y los formatos para elaborar reportes de investigación que se utilizan en mi área o disciplina.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 9</h4>
-      <p>Identifico la estructura de un artículo de investigación que se maneja en mi área o disciplina.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 10</h4>
-      <p>Identifico los elementos para formular una pregunta de investigación.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 11</h4>
-      <p>Diseño instrumentos de investigación coherentes con el método de investigación utilizado.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 12</h4>
-      <p>Formulo y pruebo hipótesis de investigación.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 13</h4>
-      <p>Me inclino a usar datos científicos para analizar problemas de investigación.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 14</h4>
-      <p>Tengo la capacidad para analizar críticamente problemas desde diferentes perspectivas.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 15</h4>
-      <p>Identifico la fundamentación de juicios propios y ajenos para reconocer argumentos falsos.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 16</h4>
-      <p>Autoevalúo  el nivel de avance y logro de mis metas para hacer los ajustes necesarios.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 17</h4>
-      <p>Utilizo razonamientos basados en el conocimiento científico para emitir juicios ante un problema.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 18</h4>
-      <p>Me aseguro de revisar los lineamientos éticos de los proyectos en los que participo.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 19</h4>
-      <p>Me aseguro de revisar los lineamientos éticos de los proyectos en los que participo.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 20</h4>
-      <p>Aprecio críticas en el desarrollo de proyectos para mejorarlos.
-      </p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 21</h4>
-      <p>Conozco los criterios para determinar un problema.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 22</h4>
-      <p>Tengo la capacidad de identificar las variables, de diversas disciplinas, que pueden ayudar a responder preguntas.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 23</h4>
-      <p>Aplico soluciones innovadoras a diversas problemáticas.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 24</h4>
-      <p>Soluciono problemas interpretando datos de diferentes disciplinas.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 25</h4>
-      <p>Analizo problemas de investigación contemplando el contexto para crear soluciones.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
-      <h4 class="mt-3">Pregunta 26</h4>
-      <p>Tiendo a evaluar con sentido crítico e innovador las soluciones derivadas de un problema.</p>
-      <div class="progress w-50" role="progressbar" aria-label="Basic example" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 0%"></div>
-      </div>
-      <!-- -------------------------------------------------- -->
+      <div id="PC"></div>
+
       <div style="height: 100px;"></div>
     </main>
   </div>
 </div>
 
 <script>
-  // Get all elements with the class "progress-bar"
-  const progressBarElements = document.querySelectorAll('.progress-bar');
+
+  var secc1 = document.querySelector("#PES")
+  var secc2 = document.querySelector("#PC")
 
   // Get the values from the template
   const values = JSON.parse("{{ answers|escapejs }}");
   
+  const preguntas = [
+                      "Cuando algo me apasiona hago lo posible para lograr mis metas.",      
+                      "Cuando mi trabajo me apasiona hago lo posible por concluirlo, aunque enfrente circunstancias adversas, falta de tiempo o distractores.",      
+                      "A pesar del rechazo o problemas, siempre busco conseguir mis objetivos.",      
+                      "Soy tolerante ante situaciones ambiguas o que me generen incertidumbre.",      
+                      "Tengo la capacidad de establecer una meta clara y los pasos para lograrla.",      
+                      "Es común que logre convencer a otros sobre mis ideas y acciones.",
+                      "Domino diferentes formas de comunicar mis ideas: por escrito, en un video o en charlas cara a cara.",      
+                      "Se me facilita delegar actividades a los miembros de mi equipo de acuerdo con sus perfiles.",      
+                      "Tengo la habilidad de identificar las fortalezas y debilidades de las personas con las que trabajo.",      
+                      "Se me facilita colaborar de manera activa en un equipo para lograr objetivos comunes.",      
+                      "Me apasiona trabajar en favor de causas sociales.",
+                      "Creo que la misión de mi vida es trabajar para el cambio social y mejorar la vida de las personas.",      
+                      "Me interesa dirigir una iniciativa con resultados favorables para la sociedad y/o el medio ambiente.",      
+                      "Soy capaz de identificar problemas en el entorno social o ambiental para generar soluciones innovadoras.",      
+                      "Manifiesto un compromiso por participar en aspectos sociales de mi entorno.",      
+                      "Opino que el crecimiento económico debe ocurrir en igualdad de oportunidades y equidad para todos.",      
+                      "Mis acciones y comportamientos se rigen por normas morales basadas en el respeto y cuidado hacia las personas y a la naturaleza.",      
+                      "Sé cómo aplicar estrategias para crear nuevas ideas o proyectos.",      
+                      "Sé aplicar conocimientos contables y financieros para el desarrollo de un emprendimiento.",      
+                      "Tengo nociones sobre la logística para llevar a cabo la gestión de una organización.",      
+                      "Sé cómo realizar un presupuesto para lograr un proyecto.",      
+                      "Sé cómo establecer criterios de valoración y medir los resultados de impacto social.",      
+                      "Creo que el cometer errores nos ofrece nuevas oportunidades de aprendizaje.",      
+                      "Conozco estrategias para desarrollar un proyecto, aún con escasez de recursos.",      
+                      "Tengo la capacidad de encontrar asociaciones entre las variables, condiciones y restricciones en un proyecto.",      
+                      "Identifico datos de mi disciplina y de otras áreas que contribuyen a resolver problemas.",      
+                      "Participo en proyectos que se tienen que resolver utilizando perspectivas Inter/multidisciplinarias.",      
+                      "Organizo información para resolver problemas.",      
+                      "Me agrada conocer perspectivas diferentes de un problema.",      
+                      "Me inclino por estrategias para comprender las partes y el todo de un problema.",      
+                      "Tengo la capacidad de Identificar los componentes esenciales de un problema para formular una pregunta de investigación.",      
+                      "Conozco la estructura y los formatos para elaborar reportes de investigación que se utilizan en mi área o disciplina.",      
+                      "Identifico la estructura de un artículo de investigación que se maneja en mi área o disciplina.",      
+                      "Identifico los elementos para formular una pregunta de investigación.",      
+                      "Diseño instrumentos de investigación coherentes con el método de investigación utilizado.",      
+                      "Formulo y pruebo hipótesis de investigación.",      
+                      "Me inclino a usar datos científicos para analizar problemas de investigación.",      
+                      "Tengo la capacidad para analizar críticamente problemas desde diferentes perspectivas.",      
+                      "Identifico la fundamentación de juicios propios y ajenos para reconocer argumentos falsos.",      
+                      "Autoevalúo  el nivel de avance y logro de mis metas para hacer los ajustes necesarios.",      
+                      "Utilizo razonamientos basados en el conocimiento científico para emitir juicios ante un problema.",      
+                      "Me aseguro de revisar los lineamientos éticos de los proyectos en los que participo.",      
+                      "Aprecio críticas en el desarrollo de proyectos para mejorarlos.",      
+                      "Conozco los criterios para determinar un problema.",      
+                      "Tengo la capacidad de identificar las variables, de diversas disciplinas, que pueden ayudar a responder preguntas.",      
+                      "Aplico soluciones innovadoras a diversas problemáticas.",
+                      "Soluciono problemas interpretando datos de diferentes disciplinas.",
+                      "Analizo problemas de investigación contemplando el contexto para crear soluciones.",
+                      "Tiendo a evaluar con sentido crítico e innovador las soluciones derivadas de un problema."
+                    ]
+  index = 0
 
   // Loop through each element and set the width based on the values
-  progressBarElements.forEach((element, index) => {
-      element.style.width = values[index] + '%';
+  values.forEach(() => {
+    index = index + 1
+    // Create the H4 element
+    var h4 = document.createElement("h4");
+    h4.className = "mt-3";
+    if (index <= 24) {
+      h4.textContent = "Pregunta " + index;
+    }else{
+      h4.textContent = "Pregunta " + (index-24);
+    }
 
-      if (values[index] >= 80) {
-            element.classList.add('bg-success');
-      }
-      else if (values[index] >= 26) {
-            element.classList.add('bg-warning');
-      }
-      else {
-            element.classList.add('bg-danger');
-      }
+    // Create the P element
+    var p = document.createElement("p");
+    p.textContent = preguntas[index-1];
+
+    // Create the outer div element with the "progress" class
+    var progressDiv = document.createElement("div");
+    progressDiv.className = "progress w-50";
+    progressDiv.setAttribute("role", "progressbar");
+    progressDiv.setAttribute("aria-label", "Basic example");
+    progressDiv.setAttribute("aria-valuenow", "0");
+    progressDiv.setAttribute("aria-valuemin", "0");
+    progressDiv.setAttribute("aria-valuemax", "100");
+    progressDiv.setAttribute("aria-valuemax", "100");
+    
+
+    // Create the inner div element with the "progress-bar" class and the "style" attribute
+    var progressBarDiv = document.createElement("div");
+    progressBarDiv.className = "progress-bar";
+    progressBarDiv.style.width = values[index-1] + '%';
+
+    console.log(values[index-1]);
+    if (values[index-1] >= 80) {
+      progressBarDiv.classList.add('bg-success');
+    }
+    else if (values[index-1] >= 26) {
+      progressBarDiv.classList.add('bg-warning');
+    }
+    else {
+      progressBarDiv.classList.add('bg-danger');
+    }
+
+    // Append the inner div to the outer div
+    progressDiv.appendChild(progressBarDiv);
+    if (index <= 24) {
+      secc1.appendChild(h4);
+      secc1.appendChild(p);
+      secc1.appendChild(progressDiv);
+    }else{
+      secc2.appendChild(h4);
+      secc2.appendChild(p);
+      secc2.appendChild(progressDiv);
+    }
+
+    // Append all elements to the document body or any desired container
+    
+
+      
   });
 </script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

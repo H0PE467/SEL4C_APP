@@ -15,10 +15,14 @@
   <body>
     <nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background-color: #0039A6;">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'index' %}">SEL4C</a>
-  <ul class="navbar-nav px-3">
-    <li class="nav-item text-nowrap">
-      <a class="nav-link" href="{% url 'login' %}"> Cerrar Sesión</a>
-    </li>
+        <ul class="navbar-nav px-3 flex-row">
+
+          <li class="nav-item text-nowrap">
+            <a class="nav-link text-light mr-5">   {{ request.user}}</a>
+          </li>
+          <li class="nav-item text-nowrap">
+            <a class="nav-link text-light" href="{% url 'logoutUser' %}"> Cerrar Sesión</a>
+          </li>
   </ul>
 </nav>
 
@@ -33,16 +37,16 @@
       
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2 pt-2">Actividades</h1>
-        <a href="{% url 'users' %}" class="btn btn-secondary" role="button"> Regresar</a>
+        <a href="{% url 'users' 1 %}" class="btn btn-secondary" role="button"> Regresar</a>
       </div>
 
       <ul class="list-group">
-        <a href="{% url 'initial_diagnosis' myId %}" class="activity list-group-item list-group-item-action list-group-item-secondary" disabled>Diagnóstico Inicial</a>
-        <a href="{% url 'activity1' myId %}" class="activity list-group-item list-group-item-action list-group-item-secondary"> Actividad 1</a>
-        <a href="{% url 'activity2' myId %}" class="activity list-group-item list-group-item-action list-group-item-secondary">Actividad 2</a>
-        <a href="{% url 'activity3' myId %}" class="activity list-group-item list-group-item-action list-group-item-secondary">Actividad 3</a>
-        <a href="{% url 'activity4' myId %}" class="activity list-group-item list-group-item-action list-group-item-secondary">Actividad 4</a>
-        <a href="{% url 'final_deliverable' myId %}" class="activity list-group-item list-group-item-action list-group-item-secondary">Entregable Final</a>
+        <a href="{% url 'initial_diagnosis' myId %}" class="activity list-group-item list-group-item-action" style="font-weight: 800px;">Diagnóstico Inicial</a>
+        <a href="{% url 'activity1' myId %}" class="activity list-group-item list-group-item-action"> Actividad 1</a>
+        <a href="{% url 'activity2' myId %}" class="activity list-group-item list-group-item-action">Actividad 2</a>
+        <a href="{% url 'activity3' myId %}" class="activity list-group-item list-group-item-action">Actividad 3</a>
+        <a href="{% url 'activity4' myId %}" class="activity list-group-item list-group-item-action">Actividad 4</a>
+        <a href="{% url 'final_deliverable' myId %}" class="activity list-group-item list-group-item-action">Entregable Final</a>
       </ul>
      
     <script>
@@ -54,6 +58,8 @@
       // Loop through each link and set its visibility based on the array
       activityLinks.forEach((link, index) => {
           if (values[index]) {
+              link.style.fontWeight = '600';
+              link.style.fontSize  = '20px';
               link.style.display = 'inline'; // Show the link
           } else {
               link.style.display = 'none'; // Hide the link
