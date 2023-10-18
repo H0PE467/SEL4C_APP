@@ -63,7 +63,7 @@
             shouldSwitch = false;
             x = rows[i].getElementsByTagName("TD")[changeVar];
             y = rows[i + 1].getElementsByTagName("TD")[changeVar];
-            if (changeVar == 1 || changeVar == 5) {
+            if (changeVar == 2) {
               if (parseInt(x.innerHTML.toLowerCase())  > parseInt(y.innerHTML.toLowerCase())) {
               shouldSwitch = true;
               break;
@@ -91,7 +91,7 @@
             shouldSwitch = false;
             x = rows[i].getElementsByTagName("TD")[changeVar];
             y = rows[i + 1].getElementsByTagName("TD")[changeVar];
-            if (changeVar == 1 || changeVar == 5) {
+            if (changeVar == 2) {
               if (parseInt(x.innerHTML.toLowerCase())  < parseInt(y.innerHTML.toLowerCase())) {
               shouldSwitch = true;
               break;

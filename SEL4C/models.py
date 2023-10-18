@@ -1,7 +1,10 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
+# CLASS FOR AUTHENTICATION
 class CustomUserManager(BaseUserManager):
+
+    # Normal Manager
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('The Email field must be set')
@@ -10,7 +13,8 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-
+    
+    # Super Manager
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -22,19 +26,23 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+# MANAGERS
 class manager(AbstractBaseUser, PermissionsMixin):
+    # Required variables
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     cellphone = models.CharField(max_length=15)
     password = models.CharField(max_length=128)
 
+    # Permission variable
     is_active = models.BooleanField(default=True)
-    is_superuser = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False) # Grants the ability to administer other maangers
+    is_staff = models.BooleanField(default=False) # Grants the ability to log in the admin site
 
-
+    # Authentication
     objects = CustomUserManager()
 
+    # Username for Login
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email' 
     REQUIRED_FIELDS = []
@@ -45,10 +53,13 @@ class manager(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.name or self.email.split('@')[0]
 
+    # Name convention in admin
     def __str__(self):
         return self.email
 
-class actInicial(models.Model):
+# ACTIVITIES FROM USERS
+class actInitial(models.Model):
+    # An array of numbers from 1 to 5 (both inclusive), stored as a string due to storage easiness
     listOfAnswers = models.CharField(max_length=255, null=True, blank=True)
 
 class act1(models.Model):
@@ -80,14 +91,16 @@ class act3(models.Model):
     reflection = models.TextField( null=True, blank=True)
 
 class act4(models.Model):
+    # Stores only Youtube Links
     link = models.CharField(max_length=510, null=True, blank=True)
 
 class actFinal(models.Model):
+    # Stores only Youtube Links
     link = models.CharField(max_length=510, null=True, blank=True)
 
-# Create your models here.
+# USERS FROM MOBILE APP
 class user(models.Model):
-    # Obligatorio
+    # Required variables
     name = models.CharField(max_length=255)
     age = models.PositiveSmallIntegerField()
     country = models.CharField(max_length=100)
@@ -98,20 +111,22 @@ class user(models.Model):
     password = models.CharField(max_length=128)
     gender = models.CharField(max_length=15)
 
-    # # Opcional
+    # Optional variables
     appRating = models.PositiveSmallIntegerField(blank=True, null=True, default = 3)
 
 
-    # # Cambiante
+    # Automated variables
     progress = models.PositiveSmallIntegerField(default = 0)
     currentActivity = models.PositiveSmallIntegerField(default = 0)
-    
-    actInit = models.ForeignKey(actInicial, on_delete=models.SET_NULL, null=True, blank=True)
+
+    # Foreign keys for activities associated
+    actInit = models.ForeignKey(actInitial, on_delete=models.SET_NULL, null=True, blank=True)
     act1ID = models.ForeignKey(act1, on_delete=models.SET_NULL, null=True, blank=True)
     act2ID = models.ForeignKey(act2, on_delete=models.SET_NULL, null=True, blank=True)
     act3ID = models.ForeignKey(act3, on_delete=models.SET_NULL, null=True, blank=True)
     act4ID = models.ForeignKey(act4, on_delete=models.SET_NULL, null=True, blank=True)
     actFinal = models.ForeignKey(actFinal, on_delete=models.SET_NULL, null=True, blank=True)
 
+    # Name convention in admin
     def __str__(self):
         return self.name

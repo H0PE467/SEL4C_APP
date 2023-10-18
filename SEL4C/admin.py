@@ -6,6 +6,6 @@ from django.contrib import admin
 from .models import *
 
 
-myModels = [user, manager, actInicial, act1, act2, act3, act4, actFinal]
+myModels = [user, manager, actInitial, act1, act2, act3, act4, actFinal]
 
 admin.site.register(myModels)

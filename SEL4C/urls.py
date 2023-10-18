@@ -13,25 +13,30 @@ router.register(r'managers',views.managerViewSet)
 
 
 urlpatterns = [
+
+    # LOGIN and LOGOUT
     path('login/', views.showLogin, name='login'),
     path('logout/', views.logoutUser, name='logoutUser'),
+
+    # Django REST Framework
     path('admin/', include(router.urls)),
+
+    # INDEX
     path('index/', views.showIndex, name='index'),
+
+    # ACCOUNT
     path('account/', views.showAccount, name='account'),
 
-    # MANAGERS
-
+    # MANAGERS Administration
     path('deleteManager/<int:id>/', views.deleteManager, name='manager_delete'),
     path('managerTable/<int:page>/', views.showManagers, name='managers'),
     path('managerTable/newManager/', views.showNewManager, name='newManager'),
 
-    # USERS
-
+    # USERS Administration
     path('usersTable/<int:page>/', views.showUsers, name='users'),
     path('deleteUser/<int:id>/', views.deleteUser, name='user_delete'),
 
-    # ACTIVIDADES
-
+    # ACTIVITIES BY USER
     path('userActivities/<int:id>/', views.showActivities, name='user_activities'),
     path('userActivities/<int:id>/initialDiagnosis/', views.showInitialDiagnosis, name='initial_diagnosis'),
     path('userActivities/<int:id>/userActivity1/', views.showActivity1, name='activity1'),
@@ -40,7 +45,7 @@ urlpatterns = [
     path('userActivities/<int:id>/userActivity4/', views.showActivity4, name='activity4'),
     path('userActivities/<int:id>/finalDeliverable/', views.showFinalDeliverable, name='final_deliverable'),
 
-    # GET REQUEST
+    # GET REQUEST FOR MOBILE APP
     path('loginUser/', views.loginUser, name='loginUser'),
     path('currentAct/', views.currentAct, name='currentAct'),
     path('accountUser/', views.accountUser, name='accountUser'),
@@ -52,7 +57,7 @@ urlpatterns = [
     path('getEF/', views.getEF, name='getEF'),
 
 
-    # POST REQUEST
+    # POST REQUEST FOR MOBILE APP
     path('registerUser/', views.registerUser, name='registerUser'),
     path('uploadDI/', views.uploadDI, name='uploadDI'),
     path('uploadAct1/', views.uploadAct1, name='uploadAct1'),

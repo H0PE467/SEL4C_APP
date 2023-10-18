@@ -4,7 +4,6 @@ from django.contrib import messages
 from rest_framework import viewsets
 from .serializer import *
 from .models import *
-from .forms import *
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -16,7 +15,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from .decorators import *
 
 
-# Create your views here.
+# Login and Logout
 
 def logoutUser(request):
     logout(request)
@@ -44,39 +43,49 @@ def showLogin(request):
 
         return render(request, 'login.html')
 
+# Index
+
 @login_required(login_url='login')
 def showIndex(request):
 
-    data = user.objects.all()  # Retrieve data from your database using your model
+    data = user.objects.all()
+
+    # Get and calculate average rating from users
     average_rating = data.aggregate(avg_app_rating=Avg('appRating'))['avg_app_rating']
-    peopleWhoHaventStarted = data.filter(currentActivity=0).count()
-    peopleInDI = data.filter(currentActivity=1).count()
-    peopleInAct1 = data.filter(currentActivity=2).count()
-    peopleInAct2 = data.filter(currentActivity=3).count()
-    peopleInAct3 = data.filter(currentActivity=4).count()
-    peopleInAct4 = data.filter(currentActivity=5).count()
-    peopleInEF = data.filter(currentActivity=6).count()
+
+    # Get the number of users per activity
+    usersWithNoData = data.filter(currentActivity=0).count()
+    usersInDI = data.filter(currentActivity=1).count()
+    usersInAct1 = data.filter(currentActivity=2).count()
+    usersInAct2 = data.filter(currentActivity=3).count()
+    usersInAct3 = data.filter(currentActivity=4).count()
+    usersInAct4 = data.filter(currentActivity=5).count()
+    usersInEF = data.filter(currentActivity=6).count()
 
     return render(request, 'index.html',{
-                                            'peopleWhoHaventStarted':peopleWhoHaventStarted,
-                                            'peopleInDI':peopleInDI,
-                                            'peopleInAct1':peopleInAct1,
-                                            'peopleInAct2':peopleInAct2,
-                                            'peopleInAct3':peopleInAct3,
-                                            'peopleInAct4':peopleInAct4,
-                                            'peopleInEF':peopleInEF,
+                                            'peopleWhoHaventStarted':usersWithNoData,
+                                            'peopleInDI':usersInDI,
+                                            'peopleInAct1':usersInAct1,
+                                            'peopleInAct2':usersInAct2,
+                                            'peopleInAct3':usersInAct3,
+                                            'peopleInAct4':usersInAct4,
+                                            'peopleInEF':usersInEF,
                                             'average_rating': average_rating
     } )
 
 
-# MANAGERS
+# MANAGERS Administration
+
 @login_required(login_url='login')
 @only_superadmins
 def showManagers(request, page):
+
+    # Renders 100 users from page to page to avoid Timeout Errors
     start  = ((page-1)*100)
     end  = 99 + ((page-1)*100)
-    data = manager.objects.all()[start:end]  # Retrieve data from your database using your model
+    data = manager.objects.all()[start:end]
 
+    # Sets the pagination of the footer
     if(page == 1):
         pagePrev = 1
         pageCurr = 1
@@ -148,14 +157,7 @@ def showNewManager(request):
         manager.objects.create(name=name, email=email, cellphone=cellphone, password= make_password(password), is_superuser=boolValueAdmin, is_staff= isStaff)
         return redirect('/SEL4C/managerTable/1/')
 
-        # form = managerForm(request.POST)
-        # if form.is_valid():
-        #     form.save()
-        #     return redirect('/SEL4C/managerTable/1/')
-    else:
-        form = managerForm()
-
-    return render(request, 'newManager.html', {'form': form})
+    return render(request, 'newManager.html')
 
 @login_required(login_url='login')
 def deleteManager(request, id):
@@ -164,14 +166,17 @@ def deleteManager(request, id):
     messages.success(request, "Eliminado Correctamente")
     return redirect('/SEL4C/managerTable/1/')
 
-# USUARIOS
+# USERS Administration
 
 @login_required(login_url='login')
 def showUsers(request, page):
+    
+    # Renders 100 users from page to page to avoid Timeout Errors
     start  = ((page-1)*100)
     end  = 99 + ((page-1)*100)
-    data = user.objects.all()[start:end]  # Retrieve data from your database using your model
+    data = user.objects.all()[start:end]
     
+    # Sets the pagination of the footer
     if(page == 1):
         pagePrev = 1
         pageCurr = 1
@@ -237,11 +242,16 @@ def updateUser(request):
         
     return JsonResponse(response_data)
 
-# RENDER ACTIVIDADES 
+# RENDER ACTIVITIES 
+
 @login_required(login_url='login')
 def showActivities(request, id):
+
+    # Gets the user selected
     activeUser = user.objects.get(pk=id)
     actDone = []
+
+    # Checks the activities done and renders only those
     if activeUser.actInit:
         actDone.append(True)
     else:
@@ -271,6 +281,8 @@ def showActivities(request, id):
         actDone.append(True)
     else:
         actDone.append(False)
+
+
     context = {
         'unlockable': json.dumps(actDone),
         'myId': id
@@ -280,9 +292,14 @@ def showActivities(request, id):
 
 @login_required(login_url='login')
 def showInitialDiagnosis(request, id):
+
+    # Gets the user selected and activity
     activeUser = user.objects.get(pk=id)
-    object = actInicial.objects.get(pk= activeUser.actInit.pk)
+    object = actInitial.objects.get(pk= activeUser.actInit.pk)
+    # Since it is a string for storage, it transform it back into an array of answers
     split = object.listOfAnswers.split()
+
+    # Calculates the length of the bar that will render it based on the answer (5 -> 100 ... 1 -> 5)
     transformed_array = [(int(item)-1) * 25 for item in split]
     transformed_array = [5 if x == 0 else x for x in transformed_array]
     context = {
@@ -293,6 +310,8 @@ def showInitialDiagnosis(request, id):
 
 @login_required(login_url='login')
 def showActivity1(request, id):
+
+    # Gets the user selected and activity
     activeUser = user.objects.get(pk=id)
     object = act1.objects.get(pk= activeUser.act1ID.pk)
     context = {
@@ -303,6 +322,8 @@ def showActivity1(request, id):
 
 @login_required(login_url='login')
 def showActivity2(request, id):
+
+    # Gets the user selected and activity
     activeUser = user.objects.get(pk=id)
     object = act2.objects.get(pk= activeUser.act2ID.pk)
     context = {
@@ -313,6 +334,8 @@ def showActivity2(request, id):
 
 @login_required(login_url='login')
 def showActivity3(request, id):
+
+    # Gets the user selected and activity
     activeUser = user.objects.get(pk=id)
     object = act3.objects.get(pk= activeUser.act3ID.pk)
     context = {
@@ -323,6 +346,8 @@ def showActivity3(request, id):
 
 @login_required(login_url='login')
 def showActivity4(request, id):
+
+    # Gets the user selected and activity
     activeUser = user.objects.get(pk=id)
     video = act4.objects.get(pk= activeUser.act4ID.pk)
     context = {
@@ -333,6 +358,8 @@ def showActivity4(request, id):
 
 @login_required(login_url='login')
 def showFinalDeliverable(request, id):
+
+    # Gets the user selected and activity
     activeUser = user.objects.get(pk=id)
     video = actFinal.objects.get(pk= activeUser.actFinal.pk)
     context = {
@@ -341,10 +368,12 @@ def showFinalDeliverable(request, id):
     }
     return render(request, 'activities/finalDeliverable.html', context)
 
-# CUENTA
+# ACCOUNT
 
 @login_required(login_url='login')
 def showAccount(request):
+
+    # For updating the account
     if request.method == 'POST':
 
         name = request.POST.get("name")
@@ -354,6 +383,7 @@ def showAccount(request):
         password_confirmation = request.POST.get("password_confirmation")
         password_current = request.POST.get("password_current")
 
+        # Password confirmation
         if password != password_confirmation:
             error_message = "Las contraseñas no coinciden. Intentelo de nuevo."
             return render(request, 'account.html', {
@@ -363,9 +393,10 @@ def showAccount(request):
                                                         'user_cellphone':cellphone
                                                         })
         
-        
+        # Get user of the current session
         current = manager.objects.get(email=request.user)
 
+        # Validate the identity
         if(not check_password(password_current,current.password)):
             error_message = "Las contraseña actual es incorrecta. Intentelo de nuevo."
             return render(request, 'account.html', {
@@ -386,7 +417,7 @@ def showAccount(request):
 
         return redirect('account')
 
-
+    # Render the information of the user of the current session
     user_name = request.user.name
     user_email = request.user.email
     user_cellphone = request.user.cellphone
@@ -397,18 +428,22 @@ def showAccount(request):
     }
     return render(request, 'account.html', context)
 
+# LOGIN FOR MOBILE APP
+
 @login_required(login_url='login')
 @csrf_exempt
 def loginUser(request):
     response_data = {"message": "failure"}
     if request.method == 'POST':
-        data = json.loads(request.body)
 
+        # Unload Data
+        data = json.loads(request.body)
 
         try:
             emailJSON = data['email']
             passwordJSON = data['password']
 
+            # Search for a match in the db
             items = user.objects.filter(email=emailJSON)
             if items.exists():
                 for item in items:
@@ -424,16 +459,19 @@ def loginUser(request):
 
     return JsonResponse(response_data)
 
-# GET REQUEST
+# GET REQUEST OF PAST ACTIVITIES FOR MOBILE APP
+
 @login_required(login_url='login')
 def accountUser(request):
     response_data = {"message": "failure"}
-
+    
+    # Unload Data
     data = json.loads(request.body)
 
     try:
         userIDJSON = data['userID']
 
+        # Get account information
         activeUser = user.objects.get(pk=userIDJSON)
 
     except:
@@ -451,13 +489,15 @@ def accountUser(request):
 def getDI(request):
     response_data = {"message": "failure"}
 
+    # Unload Data    
     data = json.loads(request.body)
 
     try:
         userIDJSON = data['userID']
 
+        # Get user and previous activity
         activeUser = user.objects.get(pk=userIDJSON)
-        activity = actInicial.objects.get(pk=activeUser.actInit.pk)
+        activity = actInitial.objects.get(pk=activeUser.actInit.pk)
 
         questionsJSON = [int(x) for x in activity.listOfAnswers.split()]
         
@@ -474,11 +514,13 @@ def getDI(request):
 @login_required(login_url='login')
 def getAct1(request):
     response_data = {"message": "failure"}
-
+    
+    # Unload Data    
     data = json.loads(request.body)
     try:
         userIDJSON = data['userID']
 
+        # Get user and previous activity
         activeUser = user.objects.get(pk=userIDJSON)
         activity = act1.objects.get(pk=activeUser.act1ID.pk)
         
@@ -498,14 +540,18 @@ def getAct1(request):
 def getAct2(request):
     response_data = {"message": "failure"}
 
+
+    # Unload Data
     data = json.loads(request.body)
 
     try:
         userIDJSON = data['userID']
 
+        # Get user and previous activity
         activeUser = user.objects.get(pk=userIDJSON)
         activity = act2.objects.get(pk=activeUser.act2ID.pk)
         
+        # Unpack in arrays
         ODSideasJSON = [activity.ODSideas1, activity.ODSideas2, activity.ODSideas3, activity.ODSideas4, activity.ODSideas5]
         consequencesJSON = [activity.consequences1, activity.consequences2, activity.consequences3, activity.consequences4, activity.consequences5]
         causesJSON = [activity.causes1, activity.causes2, activity.causes3]
@@ -526,11 +572,13 @@ def getAct2(request):
 def getAct3(request):
     response_data = {"message": "failure"}
 
+    # Unload Data
     data = json.loads(request.body)
 
     try:
         userIDJSON = data['userID']
 
+        # Get user and previous activity
         activeUser = user.objects.get(pk=userIDJSON)
         activity = act3.objects.get(pk=activeUser.act3ID.pk)
         
@@ -548,11 +596,13 @@ def getAct3(request):
 def getAct4(request):
     response_data = {"message": "failure"}
 
+    # Unload Data
     data = json.loads(request.body)
 
     try:
         userIDJSON = data['userID']
 
+        # Get user and previous activity
         activeUser = user.objects.get(pk=userIDJSON)
         activity = act4.objects.get(pk=activeUser.act4ID.pk)
         
@@ -570,11 +620,13 @@ def getAct4(request):
 def getEF(request):
     response_data = {"message": "failure"}
 
+    # Unload Data
     data = json.loads(request.body)
 
     try:
         userIDJSON = data['userID']
 
+        # Get user and previous activity
         activeUser = user.objects.get(pk=userIDJSON)
         activity = actFinal.objects.get(pk=activeUser.actFinal.pk)
         
@@ -588,14 +640,18 @@ def getEF(request):
 
     return JsonResponse(response_data)
 
+# GET REQUEST OF CURRENT ACTIVITIY FOR MOBILE APP
+
 def currentAct(request):
     response_data = {"message": "failure"}
 
+    # Unload Data
     data = json.loads(request.body)
 
     try:
         userIDJSON = data['userID']
 
+        # Get user and which activity is currently in
         activeUser = user.objects.get(pk=userIDJSON)
 
     except:
@@ -607,7 +663,7 @@ def currentAct(request):
                     }
     return JsonResponse(response_data)
 
-# POST REQUEST
+# CREATE NEW USER FOR MOBILE APP
 
 @csrf_exempt
 def registerUser(request):
@@ -650,31 +706,36 @@ def registerUser(request):
         response_data = {"successful": True}
     return JsonResponse(response_data)
 
+# POST REQUEST FOR MOBILE APP
+
 @csrf_exempt
 def uploadDI(request):
     response_data = {"message": "failure"}
     
     if request.method == 'POST':
+
+        # Unload data
         data = json.loads(request.body)
 
         try:
             userIDJSON = data['userID']
             questionsJSON = data['questions']
 
+            # Validate only numbers between 1 and 5 both inclusive
             for element in questionsJSON:
                 if not isinstance(element, int) or element < 1 or element > 5:
                     return JsonResponse(response_data)
 
             listOfAnswersJSON = ' '.join(map(str, questionsJSON))
 
-            new_entry = actInicial(listOfAnswers = listOfAnswersJSON)
+            new_entry = actInitial(listOfAnswers = listOfAnswersJSON)
             new_entry.save()
 
             new_entry_id = new_entry.id
 
 
             activeUser = user.objects.get(pk=userIDJSON)
-            newAct = actInicial.objects.get(pk=new_entry_id)
+            newAct = actInitial.objects.get(pk=new_entry_id)
 
             activeUser.actInit = newAct
             activeUser.currentActivity = 1
@@ -696,12 +757,16 @@ def uploadAct1(request):
     response_data = {"message": "failure"}
     
     if request.method == 'POST':
+        
+        # Unload data
         data = json.loads(request.body)
         try:
             userIDJSON = data['userID']
             ideasJSON = data['ideas']
             interviewJSON = data['interview']
 
+
+            # Save activity
             new_entry = act1(
                                 ideas1 = ideasJSON[0], 
                                 ideas2 = ideasJSON[1], 
@@ -714,17 +779,17 @@ def uploadAct1(request):
 
             new_entry_id = new_entry.id
 
-
+            # Assign to user as foreign key
             activeUser = user.objects.get(pk=userIDJSON)
             newAct = act1.objects.get(pk=new_entry_id)
 
+            # Add progress
             activeUser.act1ID = newAct
             activeUser.currentActivity = 2
             activeUser.progress = 32
             activeUser.save()
 
 
-            # evidenceJSON = data['evidence']
         except:
             return JsonResponse(response_data)
 
@@ -739,6 +804,8 @@ def uploadAct2(request):
     response_data = {"message": "failure"}
     
     if request.method == 'POST':
+        
+        # Unload data
         data = json.loads(request.body)
         try:
             userIDJSON = data['userID']
@@ -747,6 +814,7 @@ def uploadAct2(request):
             problemJSON = data['problem']
             causesJSON = data['causes']
 
+            # Save activity
             new_entry = act2(
                             ODSideas1 = ODSideasJSON[0],
                             ODSideas2 = ODSideasJSON[1],
@@ -766,10 +834,11 @@ def uploadAct2(request):
             new_entry.save()
             new_entry_id = new_entry.id
 
-
+            # Assign to user as foreign key
             activeUser = user.objects.get(pk=userIDJSON)
             newAct = act2.objects.get(pk=new_entry_id)
 
+            # Add progress
             activeUser.act2ID = newAct
             activeUser.currentActivity = 3
             activeUser.progress = 48
@@ -789,21 +858,25 @@ def uploadAct3(request):
     response_data = {"message": "failure"}
     
     if request.method == 'POST':
+        
+        # Unload data
         data = json.loads(request.body)
         try:
             userIDJSON = data['userID']
             reflectionJSON = data['reflection']
 
+            # Save activity
             new_entry = act3(
                             reflection = reflectionJSON
                             )
             new_entry.save()
             new_entry_id = new_entry.id
 
-
+            # Assign to user as foreign key
             activeUser = user.objects.get(pk=userIDJSON)
             newAct = act3.objects.get(pk=new_entry_id)
 
+            # Add progress
             activeUser.act3ID = newAct
             activeUser.currentActivity = 4
             activeUser.progress = 64
@@ -823,28 +896,32 @@ def uploadAct4(request):
     response_data = {"message": "failure"}
     
     if request.method == 'POST':
+        
+        # Unload data
         data = json.loads(request.body)
         try:
             userIDJSON = data['userID']
             retroJSON = data['retro']
 
+            # Validate it is a youtube link
             pattern = r"(https?://)?(www\.)?youtube\.com/watch\?v=([^&]+)"
             match = re.match(pattern, retroJSON)
 
             if not match:
                 return JsonResponse(response_data)
  
-
+            # Save activity
             new_entry = act4(
                             link = retroJSON
                             )
             new_entry.save()
             new_entry_id = new_entry.id
 
-
+            # Assign to user as foreign key
             activeUser = user.objects.get(pk=userIDJSON)
             newAct = act4.objects.get(pk=new_entry_id)
 
+            # Add progress
             activeUser.act4ID = newAct
             activeUser.currentActivity = 5
             activeUser.progress = 80
@@ -864,27 +941,32 @@ def uploadEF(request):
     response_data = {"message": "failure"}
     
     if request.method == 'POST':
+        
+        # Unload data
         data = json.loads(request.body)
         try:
             userIDJSON = data['userID']
             pitchJSON = data['pitch']
 
+            # Validate it is a youtube link
             pattern = r"(https?://)?(www\.)?youtube\.com/watch\?v=([^&]+)"
             match = re.match(pattern, pitchJSON)
 
             if not match:
                 return JsonResponse(response_data)
 
+            # Save activity
             new_entry = actFinal(
                             link = pitchJSON
                             )
             new_entry.save()
             new_entry_id = new_entry.id
 
-
+            # Assign to user as foreign key
             activeUser = user.objects.get(pk=userIDJSON)
             newAct = actFinal.objects.get(pk=new_entry_id)
 
+            # Add progress
             activeUser.actFinal = newAct
             activeUser.currentActivity = 6
             activeUser.progress = 100

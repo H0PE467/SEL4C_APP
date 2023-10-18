@@ -68,7 +68,7 @@
 
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Nombre</span>
-          <input name="name" type="text" class="form-control" placeholder="Nombre Completo" aria-label="Username" aria-describedby="basic-addon1" value="{{ user_name|default:'' }}" required>
+          <input name="name" type="text" pattern="[A-Za-z\s]+" class="form-control" placeholder="Nombre Completo" aria-label="Username" aria-describedby="basic-addon1" value="{{ user_name|default:'' }}" required>
         </div>
         <div class="input-group mb-3">
           <span class="input-group-text" id="basic-addon1">Correo</span>

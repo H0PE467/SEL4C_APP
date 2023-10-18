@@ -23,11 +23,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    # Admin PAge
     path('admin/', admin.site.urls),
+
+    # Apliccation de SEL4C
     path('SEL4C/', include('SEL4C.urls')),
+
+    # API's y Documentation
     path('docs/',include_docs_urls(title='Api Documentation')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    # Optional UI:
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
