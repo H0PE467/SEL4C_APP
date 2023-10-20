@@ -430,7 +430,6 @@ def showAccount(request):
 
 # LOGIN FOR MOBILE APP
 
-@login_required(login_url='login')
 @csrf_exempt
 def loginUser(request):
     response_data = {"message": "failure"}
@@ -461,7 +460,6 @@ def loginUser(request):
 
 # GET REQUEST OF PAST ACTIVITIES FOR MOBILE APP
 
-@login_required(login_url='login')
 def accountUser(request):
     response_data = {"message": "failure"}
     
@@ -485,7 +483,6 @@ def accountUser(request):
 
     return JsonResponse(response_data)
 
-@login_required(login_url='login')
 def getDI(request):
     response_data = {"message": "failure"}
 
@@ -511,7 +508,6 @@ def getDI(request):
 
     return JsonResponse(response_data)
 
-@login_required(login_url='login')
 def getAct1(request):
     response_data = {"message": "failure"}
     
@@ -536,7 +532,6 @@ def getAct1(request):
 
     return JsonResponse(response_data)
 
-@login_required(login_url='login')
 def getAct2(request):
     response_data = {"message": "failure"}
 
@@ -568,7 +563,6 @@ def getAct2(request):
 
     return JsonResponse(response_data)
 
-@login_required(login_url='login')
 def getAct3(request):
     response_data = {"message": "failure"}
 
@@ -592,7 +586,6 @@ def getAct3(request):
 
     return JsonResponse(response_data)
 
-@login_required(login_url='login')
 def getAct4(request):
     response_data = {"message": "failure"}
 
@@ -616,7 +609,6 @@ def getAct4(request):
 
     return JsonResponse(response_data)
 
-@login_required(login_url='login')
 def getEF(request):
     response_data = {"message": "failure"}
 
