@@ -721,6 +721,10 @@ def uploadDI(request):
             userIDJSON = data['userID']
             questionsJSON = data['questions']
 
+            if(len(questionsJSON) > 49):
+                response_data = {"message": "failure"}
+                return JsonResponse(response_data)
+
             # Validate only numbers between 1 and 5 both inclusive
             for element in questionsJSON:
                 if not isinstance(element, int) or element < 1 or element > 5:
@@ -765,6 +769,18 @@ def uploadAct1(request):
             ideasJSON = data['ideas']
             interviewJSON = data['interview']
 
+            
+            if(len(ideasJSON) != 5):
+                return JsonResponse(response_data)
+            
+            for i in range(len(ideasJSON)):
+                if(len(ideasJSON[i]) > 200):
+                    return JsonResponse(response_data)
+
+
+            if(len(interviewJSON) > 2500):
+                response_data = {"message": "error, interview too big"}
+                return JsonResponse(response_data)
 
             # Save activity
             new_entry = act1(
@@ -813,6 +829,38 @@ def uploadAct2(request):
             consequencesJSON = data['consequences']
             problemJSON = data['problem']
             causesJSON = data['causes']
+
+            # ODS IDEAS VALIDATION
+            if(len(ODSideasJSON) != 5):
+                return JsonResponse(response_data)
+            
+            for i in range(len(ODSideasJSON)):
+                if(ODSideasJSON[i] > 17):
+                    return JsonResponse(response_data)
+            
+            # CONSEQUENCES VALIDATION
+            if(len(consequencesJSON) != 5):
+                return JsonResponse(response_data)
+            
+            for i in range(len(consequencesJSON)):
+                if(len(consequencesJSON[i]) > 200):
+                    return JsonResponse(response_data)
+            
+
+            # PROBLEM VALIDATION
+
+            if(len(problemJSON) > 200):
+                return JsonResponse(response_data)
+                
+            
+            # CAUSES VALIDATION    
+            if(len(causesJSON) != 3):
+                return JsonResponse(response_data)
+                
+            for i in range(len(causesJSON)):
+                if(len(causesJSON[i]) > 200):
+                    return JsonResponse(response_data)
+
 
             # Save activity
             new_entry = act2(
@@ -864,6 +912,12 @@ def uploadAct3(request):
         try:
             userIDJSON = data['userID']
             reflectionJSON = data['reflection']
+
+
+            if(len(reflectionJSON) > 2500):
+                response_data = {"message": "error, reflection too big"}
+                return JsonResponse(response_data)
+
 
             # Save activity
             new_entry = act3(
