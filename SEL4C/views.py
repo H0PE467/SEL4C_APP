@@ -430,6 +430,7 @@ def showAccount(request):
 
 # LOGIN FOR MOBILE APP
 
+# @login_required(login_url='login')
 @csrf_exempt
 def loginUser(request):
     response_data = {"message": "failure"}
@@ -446,7 +447,7 @@ def loginUser(request):
             items = user.objects.filter(email=emailJSON)
             if items.exists():
                 for item in items:
-                    if item.password == passwordJSON:
+                    if check_password(passwordJSON,item.password):
                         response_data = {
                                             "successful": True,
                                             "userID": item.id
@@ -686,7 +687,7 @@ def registerUser(request):
 
 
             new_entry = user(name = nameJSON, age = ageJSON, country = countryJSON, 
-                         institution = institutionJSON, password = passwordJSON, academic = academicJSON,
+                         institution = institutionJSON, password = make_password(passwordJSON), academic = academicJSON,
                          gender = genderJSON, discipline = disciplineJSON, email = emailJSON)
             new_entry.save()
 
